@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "widgets.html" as ui %}
+{% block shell %}
+<body class="ribbon">
+<main class="desk" aria-label="ribbon">
+  {{ ui.identity(p) }}
+  {{ ui.intake() }}
+  {{ ui.navigation(p) }}
+  {{ ui.metrics() }}
+  {{ ui.visual(p) }}
+  {{ ui.inspection() }}
+  {{ ui.results() }}
+  {{ ui.archive() }}
+  {{ ui.status() }}
+</main>
+</body>
+{% endblock %}
