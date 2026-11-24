@@ -22,7 +22,8 @@ def runs():
     store = current_app.extensions["runs"]
     if request.method == "GET":
         return jsonify(items=store.list())
-    return jsonify(execute(store, read_input()))
+    base_id = request.form.get("base_run_id") or None
+    return jsonify(execute(store, read_input(), base_id))
 
 
 @api.route("/runs/<run_id>", methods=["GET", "PATCH"])

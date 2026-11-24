@@ -1,9 +1,18 @@
+import pytest
+
 from app.intake.service import inspect
 
 
 def test_examples_are_downloadable_and_valid(client, clean):
     response = client.get("/examples/clean")
     assert response.status_code == 200 and response.data == clean
+    assert inspect(response.data)["rejected"] == 0
+
+
+@pytest.mark.parametrize("profile", ["correction", "fragment"])
+def test_correction_examples_are_downloadable_and_wellformed(client, profile):
+    response = client.get("/examples/" + profile)
+    assert response.status_code == 200
     assert inspect(response.data)["rejected"] == 0
 
 

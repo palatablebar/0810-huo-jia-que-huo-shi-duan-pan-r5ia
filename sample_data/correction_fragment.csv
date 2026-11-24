@@ -1,0 +1,3 @@
+record,case,kind,start_min,end_min,limit_bp,note
+100201,0002,open,0,40,0,更正后营业窗
+100203,0002,empty,55,60,0,缺货更正

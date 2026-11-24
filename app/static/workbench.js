@@ -5,6 +5,7 @@ import {visualize} from './plots.js';
 const form = document.querySelector('#source');
 const file = document.querySelector('#file');
 const profile = document.querySelector('#profile');
+const baseSelect = document.querySelector('#base-run');
 const status = document.querySelector('#notice');
 const detail = document.querySelector('#review');
 const evidence = document.querySelector('#evidence');
@@ -16,6 +17,13 @@ function source() {
   const data = new FormData();
   if (file.files.length) data.append('file',file.files[0]);
   else data.append('sample',profile.value);
+  return data;
+}
+
+function batchInput() {
+  // 阶段预览只评估当前文件本身；执行批次时才叠加更正基线做逐组组合。
+  const data = source();
+  if (baseSelect.value) data.append('base_run_id', baseSelect.value);
   return data;
 }
 
@@ -50,6 +58,18 @@ function show(payload, committed = false) {
 async function refresh() {
   const data = await request('/api/runs');
   history(data.items, batch?.id);
+  const current = baseSelect.value;
+  baseSelect.replaceChildren();
+  baseSelect.append(Object.assign(document.createElement('option'),
+    {value:'', textContent:'独立整批'}));
+  for (const run of data.items) {
+    if (run.effective && run.status === 'APPROVED') {
+      baseSelect.append(Object.assign(document.createElement('option'),
+        {value:run.id, textContent:`更正基线 ${run.id.slice(0,10)}`}));
+    }
+  }
+  if ([...baseSelect.options].some(o => o.value === current)) baseSelect.value = current;
+  else baseSelect.value = '';
 }
 
 async function perform(action) {
@@ -76,7 +96,7 @@ stages.forEach(button => button.addEventListener('click',()=>preview(button.data
 form.addEventListener('submit', event => {
   event.preventDefault();
   perform(async () => {
-    const result = await request('/api/runs',{method:'POST',body:source()});
+    const result = await request('/api/runs',{method:'POST',body:batchInput()});
     stage = 'balance'; show(result,true);
     announce('批次已保存'); await refresh();
   });

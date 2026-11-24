@@ -2,12 +2,16 @@ import json
 
 
 def artifact(run):
+    report = run["report"]
     packet = {
-        "schema": "review-evidence/1",
-        "manifest": run["report"]["manifest"],
-        "balance": run["report"]["balance"],
-        "cases": run["report"]["cases"],
-        "intake": run["report"]["intake"],
+        "schema": "review-evidence/2",
+        "manifest": report["manifest"],
+        "lineage": report.get("lineage"),
+        "blocks": report.get("blocks", []),
+        "balance": report["balance"],
+        "cases": report["cases"],
+        "intake": report["intake"],
+        "effective": run["effective"],
         "review": {key: run[key] for key in ("status", "revision", "note", "reviewed")},
     }
     return (

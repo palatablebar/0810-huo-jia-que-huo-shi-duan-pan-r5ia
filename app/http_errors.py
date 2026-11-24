@@ -17,6 +17,9 @@ LABELS = {
     "UNRESOLVED_ISSUES": "存在待处理差异",
     "SAMPLE_UNKNOWN": "样例不存在",
     "STAGE_UNKNOWN": "处理阶段不存在",
+    "CORRECTION_GROUP_UNKNOWN": "更正含无法追溯来源的业务组",
+    "BASE_RUN_NOT_FINALIZED": "只能对已签发批次提交更正",
+    "BASE_RUN_NOT_FOUND": "原有效批次不存在，已回滚",
 }
 
 
@@ -27,7 +30,14 @@ def response(error):
         if code in {"RUN_NOT_FOUND", "SAMPLE_UNKNOWN", "STAGE_UNKNOWN"}
         else (
             409
-            if code in {"STALE_REVIEW", "RUN_FINALIZED", "UNRESOLVED_ISSUES"}
+            if code
+            in {
+                "STALE_REVIEW",
+                "RUN_FINALIZED",
+                "UNRESOLVED_ISSUES",
+                "BASE_RUN_NOT_FOUND",
+                "BASE_RUN_NOT_FINALIZED",
+            }
             else 413 if code == "FILE_TOO_LARGE" else 422
         )
     )

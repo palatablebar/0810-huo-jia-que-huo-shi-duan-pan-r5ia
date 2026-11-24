@@ -1,0 +1,5 @@
+record,case,kind,start_min,end_min,limit_bp,note
+100201,0002,open,0,40,0,更正后营业窗
+100202,0002,open,35,60,0,补录营业区间
+100203,0002,empty,0,1,0,缺货更正
+100204,0002,target,0,0,200,阈值沿用复核

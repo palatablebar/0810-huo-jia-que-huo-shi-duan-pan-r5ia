@@ -51,3 +51,10 @@ body.ribbon {margin:0;background:var(--bg);color:var(--ink);font:var(--size)/1.5
 .availability-track {height:33px;background:var(--button);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
 .availability-track .mark-piece {min-width:0;width:var(--part);height:100%;border-radius:99px;text-align:center;font-size:0;background:repeating-linear-gradient(125deg,var(--accent) 0 11px,var(--alert) 11px 15px)}
 .availability-totals {display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-top:10px}
+
+/* 更正批次：来源与阻断标记 */
+.ribbon .badge[data-origin] {border:1px solid var(--line);border-radius:6px}
+.ribbon .badge[data-origin="CARRIED"] {color:var(--muted, var(--line))}
+.ribbon .badge[data-origin="REAUDITED"] {color:var(--accent)}
+.ribbon .badge[data-blocked="true"] {color:var(--alert);border-color:var(--alert)}
+.ribbon .source select {max-width:220px}
